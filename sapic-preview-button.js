@@ -1,24 +1,9 @@
-function load() {
-   var href = window.location.href;
-   if (/\/market\/listings\/753\//.test(href)) {
-      scmSapicButton();
-   } else if (/\/inventory\//.test(href)) {
-      invSapicButton();
-   } else if (/\/id\/.*\/edit/.test(href) || /\/profiles\/.*\/edit/.test(href)) {
-      settingsSapicButton();
-   } else if(/\/sharedfiles\/edititem\/767\/3/.test(href)) {
-     longImageButton();
-   }
-};
-
 function longImageButton(){
+  $('#title').after('<div class="long_sapic_button btn_blue_white_innerfade btn_medium" id="longImage" style="display:none;"><span>Upload a Long Image</span></div>');
   $('#PreviewImage').on('load', function () {
-    $('#title').after('<div class="scm_sapic_button btn_blue_white_innerfade btn_medium" id="longImage"><span>Upload a Long Image</span></div>');
+    $('#longImage').show();
 });
-$('#longImage').click(function(){
-  $('#image_width').val('1000');
-  $('#image_height').val('1');
-});
+
 }
 
 function scmSapicButton() {
@@ -73,4 +58,21 @@ function settingsSapicButton() {
       sapicButton.remove();
    }, 200);
 }
-load();
+
+$(document).ready(function(){
+  var href = window.location.href;
+  if (/\/market\/listings\/753\//.test(href)) {
+     scmSapicButton();
+  } else if (/\/inventory\//.test(href)) {
+     invSapicButton();
+  } else if (/\/id\/.*\/edit/.test(href) || /\/profiles\/.*\/edit/.test(href)) {
+     settingsSapicButton();
+  } else if(/\/sharedfiles\/edititem\/767\/3/.test(href)) {
+    longImageButton();
+  }
+
+  $('.long_sapic_button').on('click', function(){
+    $('#image_width').val('1000');
+    $('#image_height').val('1');
+  });
+});
