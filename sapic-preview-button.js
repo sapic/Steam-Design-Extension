@@ -6,8 +6,20 @@ function load() {
       invSapicButton();
    } else if (/\/id\/.*\/edit/.test(href) || /\/profiles\/.*\/edit/.test(href)) {
       settingsSapicButton();
+   } else if(/\/sharedfiles\/edititem\/767\/3/.test(href)) {
+     longImageButton();
    }
 };
+
+function longImageButton(){
+  $('#PreviewImage').on('load', function () {
+    $('#title').after('<div class="scm_sapic_button btn_blue_white_innerfade btn_medium" id="longImage"><span>Upload a Long Image</span></div>');
+});
+$('#longImage').click(function(){
+  $('#image_width').val('1000');
+  $('#image_height').val('1');
+});
+}
 
 function scmSapicButton() {
    setTimeout(function() {
