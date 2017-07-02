@@ -1,8 +1,8 @@
-function longImageButton(){
-  $('#title').after('<div class="long_sapic_button btn_blue_white_innerfade btn_medium" id="longImage" style="display:none;"><span>Upload a Long Image</span></div>');
-  $('#PreviewImage').on('load', function () {
-    $('#longImage').show();
-});
+function longImageButton() {
+   $('#title').after('<div class="long_sapic_button btn_blue_white_innerfade btn_medium" id="longImage" style="display:none;"><span>Upload a Long Image</span></div>');
+   $('#PreviewImage').on('load', function() {
+      $('#longImage').show();
+   });
 
 }
 
@@ -45,34 +45,33 @@ function invSapicButton() {
 }
 
 function settingsSapicButton() {
-  var url = $('#profile_background_current_image').attr("src");
-  if (url == null){
-    return
-  };
-   setInterval(function() {
-      var url = $('#profile_background_current_image').attr("src");
-      var sapicButton = $(".settings_sapic_button");
-      url = url.replace("?size=140x90&v=2", "");
+   var url = $('#profile_background_current_image').attr("src");
+   if (url) {
+      setInterval(function() {
+         var url = $('#profile_background_current_image').attr("src");
+         var sapicButton = $(".settings_sapic_button");
+         url = url.replace("?size=140x90&v=2", "");
 
-      $(".background_selector_launch_area").find(".btn_grey_white_innerfade.btn_small").first().before('<a class="settings_sapic_button btn_small btn_grey_white_innerfade" style="margin-right: 10px;" target="_blank" href="https://steam.design/#' + url + '"><span>View on Steam.Design</span></a>');
-      sapicButton.remove();
-   }, 200);
+         $(".background_selector_launch_area").find(".btn_grey_white_innerfade.btn_small").first().before('<a class="settings_sapic_button btn_small btn_grey_white_innerfade" style="margin-right: 10px;" target="_blank" href="https://steam.design/#' + url + '"><span>View on Steam.Design</span></a>');
+         sapicButton.remove();
+      }, 200);
+   }
 }
 
-$(document).ready(function(){
-  var href = window.location.href;
-  if (/\/market\/listings\/753\//.test(href)) {
-     scmSapicButton();
-  } else if (/\/inventory\//.test(href)) {
-     invSapicButton();
-  } else if (/\/id\/.*\/edit/.test(href) || /\/profiles\/.*\/edit/.test(href)) {
-     settingsSapicButton();
-  } else if(/\/sharedfiles\/edititem\/767\/3/.test(href)) {
-    longImageButton();
-  }
+$(document).ready(function() {
+   var href = window.location.href;
+   if (/\/market\/listings\/753\//.test(href)) {
+      scmSapicButton();
+   } else if (/\/inventory\//.test(href)) {
+      invSapicButton();
+   } else if (/\/id\/.*\/edit/.test(href) || /\/profiles\/.*\/edit/.test(href)) {
+      settingsSapicButton();
+   } else if (/\/sharedfiles\/edititem\/767\/3/.test(href)) {
+      longImageButton();
+   }
 
-  $('.long_sapic_button').on('click', function(){
-    $('#image_width').val('1000');
-    $('#image_height').val('1');
-  });
+   $('.long_sapic_button').on('click', function() {
+      $('#image_width').val('1000');
+      $('#image_height').val('1');
+   });
 });
