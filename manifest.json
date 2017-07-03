@@ -1,20 +1,18 @@
 {
-    "manifest_version": 2,
-    "name": "Steam.Design Buttons",
-    "version": "0.1.2",
-    "description": "Creates Steam.Design buttons on steam.",
-    "converted_from_user_script": true,
+  "manifest_version": 2,
+  "name": "Steam.Design Buttons",
+  "version": "0.1.3",
+  "description": "Creates Steam.Design buttons on steam.",
+  "converted_from_user_script": true,
 
-    "browser_action": {
-        "default_icon": "steam-design.png"
-    },
+  "browser_action": {
+    "default_icon": "steam-design.png"
+  },
 
-    "content_scripts": [
-        {
-            "matches": ["http://www.steamcardexchange.net/*", "https://www.steamcardexchange.net/*", "https://steamcommunity.com/*", "http://steamcommunity.com/*"],
-            "js": [ "jquery-3.2.1.min.js", "sapic-preview-button.js"],
-            "run_at": "document_end"
+  "content_scripts": [{
+    "matches": ["http://www.steamcardexchange.net/*", "https://www.steamcardexchange.net/*", "https://steamcommunity.com/*", "http://steamcommunity.com/*"],
+    "js": ["jquery-3.2.1.min.js", "sapic-preview-button.js"],
+    "run_at": "document_end"
 
-        }
-    ]
+  }]
 }
