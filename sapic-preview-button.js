@@ -84,5 +84,6 @@ $(document).ready(function() {
    $('.long_sapic_button').on('click', function() {
       $('#image_width').val('1000');
       $('#image_height').val('1');
+      $(this).hide();
    });
 });
