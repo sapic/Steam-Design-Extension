@@ -1,13 +1,9 @@
 {
   "manifest_version": 2,
   "name": "Steam.Design Buttons",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Creates Steam.Design buttons on steam.",
   "converted_from_user_script": true,
-
-  "browser_action": {
-    "default_icon": "steam-design.png"
-  },
 
   "icons": {
     "48": "icon48.png",
