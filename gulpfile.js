@@ -14,7 +14,7 @@ gulp.task('js', function(){
         .pipe(gulp.dest('./out/build'))
 });
 
-gulp.task('default', ['clean'], function() {
+gulp.task('default', ['js'], function() {
     gulp.src([
         './out/build/main.js',
         './src/icon48.png',
