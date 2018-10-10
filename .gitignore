@@ -1,2 +1,5 @@
-
+node_modules
+out
 Steam-Design-Extension.zip
+yarn.lock
+package-lock.json

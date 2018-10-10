@@ -1,0 +1,13 @@
+{
+  "name": "sapic-extension",
+  "version": "1.0.0",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-zip": "^4.2.0"
+  },
+  "dependencies": {
+    "global": "^4.3.2"
+  }
+}
