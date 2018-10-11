@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Steam.Design Buttons",
-  "version": "0.1.6",
+  "version": "0.1.10",
   "description": "Creates Steam.Design buttons on steam.",
   "converted_from_user_script": true,
 
