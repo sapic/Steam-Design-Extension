@@ -70,28 +70,28 @@ function settingsSapicButton_2() {
 }
 
 function checkDesignerStatus() {
-    $.getJSON("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json", function(data) {
+    $.getJSON("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json").done(function(data) {
         var id = $('#abuseForm').children().first().val();
 
         $.each(data.designers, function() {
             if (id == this) {
-                loadDesignerBanner(0);
+                loadDesignerBanner("designer");
             }
-        })
+        });
 
         $.each(data.sapicstaff, function() {
             if (id == this) {
-                loadDesignerBanner(1);
+                loadDesignerBanner("sapic");
             }
-        })
-    })
+        });
+    });
 
 }
 
-function loadDesignerBanner(num) {
-    if (num == 0) {
+function loadDesignerBanner(banner) {
+    if (banner == "designer") {
         var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="https://i.oddball.tf/lvkAtUA.png"></img><a class="hoverunderline" href="https://designerlist.guide" style="position: relative;bottom: 25px;left: 15px; color: white;">Verified Profile Designer</a></div></div>'
-    } else if (num == 1) {
+    } else if (banner == "sapic") {
         var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="https://i.oddball.tf/egACnNm.png"></img><a class="hoverunderline" href="https://Steam.Design" style="position: relative;bottom: 25px;left: 15px; color: white;">Steam.Design Staff</a></div></div>'
     }
     $('.profile_in_game.persona').after(html);

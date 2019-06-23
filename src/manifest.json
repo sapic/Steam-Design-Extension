@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Steam Profile Assistant",
-    "version": "0.1.15",
+    "version": "0.1.17",
     "description": "Does various things to assist with making Steam profile artwork.",
 
     "icons": {
@@ -14,5 +14,8 @@
         "js": ["jquery-3.3.1.min.js", "sapic-preview-button.js"],
         "run_at": "document_end"
 
-    }]
+    }],
+    "permissions": [
+        "https://github.com"
+    ]
 }
