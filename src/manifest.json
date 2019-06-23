@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Steam Profile Assistant",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "description": "Does various things to assist with making Steam profile artwork.",
 
     "icons": {
@@ -16,6 +16,7 @@
 
     }],
     "permissions": [
-        "https://github.com"
+        "https://*/",
+        "http://*/"
     ]
 }
