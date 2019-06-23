@@ -1,18 +1,18 @@
 {
-  "manifest_version": 2,
-  "name": "Steam.Design Buttons",
-  "version": "0.1.13",
-  "description": "Creates Steam.Design buttons on steam.",
+    "manifest_version": 2,
+    "name": "Steam Profile Assistant",
+    "version": "0.1.13",
+    "description": "Does various things to assist with making Steam profile artwork.",
 
-  "icons": {
-    "48": "icon48.png",
-   "128": "icon128.png" 
-  },
+    "icons": {
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
 
-  "content_scripts": [{
-    "matches": ["https://steamcommunity.com/*", "http://steamcommunity.com/*"],
-    "js": ["jquery-3.3.1.min.js", "sapic-preview-button.js"],
-    "run_at": "document_end"
+    "content_scripts": [{
+        "matches": ["https://steamcommunity.com/*", "http://steamcommunity.com/*"],
+        "js": ["jquery-3.3.1.min.js", "sapic-preview-button.js"],
+        "run_at": "document_end"
 
-  }]
+    }]
 }
