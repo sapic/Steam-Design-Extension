@@ -84,16 +84,47 @@ function checkDesignerStatus() {
                 loadDesignerBanner("sapic");
             }
         });
+
+        $.each(data.aevoa, function() {
+            if (id == this) {
+                loadDesignerBanner("aevoa");
+            }
+        });
+
+        $.each(data.donator, function() {
+            if (id == this) {
+                loadDesignerBanner("donator");
+            }
+        });
     });
 
 }
 
 function loadDesignerBanner(banner) {
-    if (banner == "designer") {
-        var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="https://i.oddball.tf/lvkAtUA.png"></img><a class="hoverunderline" href="https://designerlist.guide" style="position: relative;bottom: 25px;left: 15px; color: white;">Verified Profile Designer</a></div></div>'
-    } else if (banner == "sapic") {
-        var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="https://i.oddball.tf/egACnNm.png"></img><a class="hoverunderline" href="https://Steam.Design" style="position: relative;bottom: 25px;left: 15px; color: white;">Steam.Design Staff</a></div></div>'
+    switch (banner) {
+        case "designer":
+            var imgurl = "https://i.oddball.tf/lvkAtUA.png";
+            var href = "https://designerlist.guide";
+            var text = "Verified Profile Designer";
+            break;
+        case "sapic":
+            var imgurl = "https://i.oddball.tf/egACnNm.png";
+            var href = "https://Steam.Design";
+            var text = "Steam.Design Staff";
+            break;
+        case "aevoa":
+            var imgurl = "https://i.oddball.tf/KAnFF5k.png";
+            var href = "https://steamcommunity.com/id/Aevoa/myworkshopfiles/?section=guides";
+            var text = "140+ Guides Published";
+            break;
+        case "donator":
+            var imgurl = "https://i.oddball.tf/rjZpjUn.png";
+            var href = "https://Steam.Design";
+            var text = "Steam.Design Donator";
+            break;
     }
+
+    var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="' + imgurl + '"></img><a class="hoverunderline" href="' + href + '" style="position: relative;bottom: 25px;left: 15px; color: white;">' + text + '</a></div></div>';
     $('.profile_in_game.persona').after(html);
 }
 
