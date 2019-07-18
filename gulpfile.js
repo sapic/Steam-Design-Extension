@@ -1,31 +1,30 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var zip = require('gulp-zip');
-var del = require('del');
-var fs = require('fs');
+const { src, dest, parallel, series } = require('gulp');
+const uglify = require('gulp-uglify');
+const zip = require('gulp-zip');
+const del = require('del');
+const fs = require('fs');
 
-gulp.task('dir', function() {
-    return gulp.src('*.*', { read: false })
-        .pipe(gulp.dest('./out/build'))
-})
+function dir() {
+    return src('*.*', { read: false })
+        .pipe(dest('./out/build'))
+}
 
-gulp.task('js', function() {
-    return gulp.src([
+function js() {
+    return src([
             './src/js/sapic-preview-button.js',
             './src/js/jquery-3.3.1.min.js'
         ])
         .pipe(uglify())
-        .pipe(gulp.dest('./out/build'))
-});
+        .pipe(dest('./out/build'))
+}
 
-gulp.task('build', function() {
+function build() {
     var content = fs.readFileSync('./src/manifest.json', {
         encoding: 'utf-8'
     });
     var vernum = content.match(/\.[0-9]{2,}/g)
     fs.writeFileSync('./src/manifest.json', content.replace(vernum, (parseFloat(vernum) + 0.01).toFixed(2).replace(/^0+/, '')));
-    return gulp.src([
+    return src([
             './out/build/jquery-3.3.1.min.js',
             './out/build/sapic-preview-button.js',
             './src/icon48.png',
@@ -34,11 +33,17 @@ gulp.task('build', function() {
             './designers.json'
         ])
         .pipe(zip('Steam-Design-Extension.zip'))
-        .pipe(gulp.dest('./out'))
-})
+        .pipe(dest('./out'))
+}
 
-gulp.task('clean', function() {
+function clean() {
     return del('./out/build')
-})
+}
 
-gulp.task('default', gulp.series('dir', 'js', 'build', 'clean'));
+exports.default =
+    series(
+        dir,
+        js,
+        build,
+        clean
+    )
