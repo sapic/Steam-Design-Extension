@@ -115,7 +115,7 @@ function loadDesignerBanner(banner) {
         case "aevoa":
             var imgurl = "https://i.oddball.tf/KAnFF5k.png";
             var href = "https://steamcommunity.com/id/Aevoa/myworkshopfiles/?section=guides";
-            var text = "140+ Guides Published";
+            var text = "150+ Guides Published";
             break;
         case "donator":
             var imgurl = "https://i.oddball.tf/rjZpjUn.png";
@@ -129,6 +129,7 @@ function loadDesignerBanner(banner) {
 }
 
 $(document).ready(function() {
+    $.ajaxSetup({ cache: false });
     var href = window.location.href;
     if (/\/market\/listings\/753\//.test(href)) {
         scmSapicButton();
