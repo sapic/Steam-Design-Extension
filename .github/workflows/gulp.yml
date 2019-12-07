@@ -14,7 +14,7 @@ jobs:
     - name: NPM Install
       run: |
         npm install
-        npm install -g chrome-webstore-upload-cli
+        sudo npm install -g chrome-webstore-upload-cli
     - name: Run Gulp
       run: gulp
     - name: Upload to Chrome Web Store
