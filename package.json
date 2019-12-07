@@ -1,12 +1,12 @@
 {
-  "name": "sapic-extension",
-  "version": "1.0.0",
-  "devDependencies": {
-    "chrome-webstore-upload-cli": "^1.2.0",
-    "del": "^5.1.0",
-    "gulp": "^4.0.0",
-    "gulp-concat": "^2.5.2",
-    "gulp-uglify": "^3.0.0",
-    "gulp-zip": "^5.0.0"
-  }
+    "name": "sapic-extension",
+    "version": "1.0.0",
+    "devDependencies": {
+        "chrome-webstore-upload-cli": "^1.2.0",
+        "del": "^5.1.0",
+        "gulp": "^4.0.0",
+        "gulp-concat": "^2.5.2",
+        "gulp-uglify": "^3.0.0",
+        "gulp-zip": "^5.0.0"
+    }
 }
