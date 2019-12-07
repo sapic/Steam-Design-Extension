@@ -18,7 +18,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: NPM Install
-      run: npm install
+      run: |
+        npm install
+        npm install -g chrome-webstore-upload-cli
     - name: Run Gulp
       run: gulp
     - name: Upload to Chrome Web Store
