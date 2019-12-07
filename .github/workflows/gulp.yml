@@ -1,4 +1,4 @@
-name: Steam.Design Extension Tests
+name: Steam.Design Extension Test/Upload
 
 on: [push]
 
@@ -19,5 +19,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: NPM Install
       run: npm install
-    - name: Run Tests
-      run: gulp test
+    - name: Run Gulp
+      run: gulp
+    - name: Upload to Chrome Web Store
+      run: webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
+      env:
+        Client_ID: ${{ secrets.Client_ID }}
+        Client_Secret: ${{ secrets.Client_Secret }}
+        Refresh_Token: ${{ secrets.Refresh_Token }}
