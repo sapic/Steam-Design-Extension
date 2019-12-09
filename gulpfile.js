@@ -12,7 +12,7 @@ function dir() {
 function js() {
     return src([
             './src/js/sapic-preview-button.js',
-            './src/js/jquery-3.3.1.min.js'
+            './src/js/jquery-3.4.1.min.js'
         ])
         .pipe(uglify())
         .pipe(dest('./out/build'))
@@ -29,7 +29,7 @@ function vernum() {
 
 function build() {
     return src([
-            './out/build/jquery-3.3.1.min.js',
+            './out/build/jquery-3.4.1.min.js',
             './out/build/sapic-preview-button.js',
             './src/icon48.png',
             './src/icon128.png',
