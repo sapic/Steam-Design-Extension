@@ -11,7 +11,7 @@
 
     "content_scripts": [{
         "matches": ["https://steamcommunity.com/*", "http://steamcommunity.com/*"],
-        "js": ["jquery-3.3.1.min.js", "sapic-preview-button.js"],
+        "js": ["jquery-3.4.1.min.js", "sapic-preview-button.js"],
         "run_at": "document_end"
 
     }],
