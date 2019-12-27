@@ -71,7 +71,8 @@ function settingsSapicButton_2() {
 
 function checkDesignerStatus() {
     $.getJSON("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json").done(function(data) {
-        var id = $('#abuseForm').children().first().val();
+        $('body').append("<script id=\"idScript\">$J('#idScript').append('<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">')</script>");
+        var id = $('#steamID').val()
 
         $.each(data.designers, function() {
             if (id == this) {

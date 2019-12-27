@@ -18,15 +18,6 @@ function js() {
         .pipe(dest('./out/build'))
 }
 
-function vernum() {
-    var content = fs.readFileSync('./src/manifest.json', {
-        encoding: 'utf-8'
-    });
-    var vernum = content.match(/\.[0-9]{2,}/g)
-    fs.writeFileSync('./src/manifest.json', content.replace(vernum, (parseFloat(vernum) + 0.01).toFixed(2).replace(/^0+/, '')));
-    return Promise.resolve();
-}
-
 function build() {
     return src([
             './out/build/jquery-3.4.1.min.js',
@@ -54,7 +45,6 @@ exports.test = series(
 exports.default = series(
     dir,
     js,
-    vernum,
     build,
     clean
 )
