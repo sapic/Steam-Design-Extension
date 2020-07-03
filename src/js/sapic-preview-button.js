@@ -125,8 +125,8 @@ function loadDesignerBanner(banner) {
             break;
     }
 
-    var html = '<div class="profile_in_game persona offline"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="' + imgurl + '"></img><a class="hoverunderline" href="' + href + '" style="position: relative;bottom: 25px;left: 15px; color: white;">' + text + '</a></div></div>';
-    $('.profile_in_game.persona').after(html);
+    var html = '<div class="profile_in_game persona offline sapicbadge"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="' + imgurl + '"></img><a class="hoverunderline" href="' + href + '" style="position: relative;bottom: 25px;left: 15px; color: white;">' + text + '</a></div></div>';
+    $('.profile_in_game.persona').not($('.sapicbadge')).after(html);
 }
 
 $(document).ready(function() {
