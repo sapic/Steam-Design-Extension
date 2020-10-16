@@ -80,14 +80,21 @@ function invSapicButton_2(id) {
 // }
 
 function checkDesignerStatus() {
-  const configDiv = document.getElementById("webui_config")
-  const userInfo = JSON.parse(configDiv.getAttribute("data-userinfo"))
+  var script = document.createElement('script');
+  script.innerHTML = `document.body.innerHTML += '<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">'`
+  document.body.appendChild(script)
 
-  if (!userInfo || !userInfo.steamid) {
+  const idContainer = document.getElementById("steamID")
+  if (!idContainer) {
+    console.log('no user info container')
     return
   }
 
-  const id = userInfo.steamid
+  const id = idContainer.getAttribute("value")
+  if (!id) {
+    console.log('no user info')
+    return
+  }
 
   getDesignersList().then(data => {
     for (let i of data.designers) {
@@ -110,6 +117,8 @@ function checkDesignerStatus() {
         loadDesignerBanner("donator");
       }
     }
+  }).catch(err => {
+    console.log('get design err', err)
   })
 }
 
@@ -189,7 +198,7 @@ function isElement(obj) {
 function getDesignersList() {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(['designers'], function (result) {
-      if (result.designers) {
+      if (result && result.designers && result.designers.set_at) {
         const timeSpent = Date.now() - result.designers.set_at
         if (timeSpent < 60 * 60 * 24 * 1000) { // cache for 24 hours
           return resolve(result.designers)
