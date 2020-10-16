@@ -27,7 +27,6 @@ function jsDev() {
 
 function build() {
     return src([
-        './out/build/jquery-3.4.1.min.js',
         './out/build/sapic-preview-button.js',
         './out/build/hot-reload.js',
         './src/icon48.png',
@@ -41,7 +40,6 @@ function build() {
 
 function dev() {
     return src([
-        './out/build/jquery-3.4.1.min.js',
         './out/build/sapic-preview-button.js',
         './out/build/hot-reload.js',
         './src/icon48.png',
