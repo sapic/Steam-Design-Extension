@@ -1,7 +1,11 @@
 function longImageButton() {
-  $('#title').after('<div class="long_sapic_button btn_blue_white_innerfade btn_medium" id="longImage" style="display:none;"><span>Upload a Long Image</span></div>');
-  $('#PreviewImage').on('load', function () {
-    $('#longImage').show();
+  const selectElement = document.getElementById('PreviewImage');
+  const widthInput = document.getElementById('image_width')
+  const heightInput = document.getElementById('image_height')
+
+  selectElement.addEventListener('load', (event) => {
+    widthInput.value = 1000
+    heightInput.value = 1
   });
 }
 
@@ -74,70 +78,86 @@ function settingsSapicButton_2() {
 }
 
 function checkDesignerStatus() {
+  const configDiv = document.getElementById("webui_config")
+  const userInfo = JSON.parse(configDiv.getAttribute("data-userinfo"))
+
+  if (!userInfo || !userInfo.steamid) {
+    return
+  }
+
+  const id = userInfo.steamid
+
   fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json")
     .then(r => r.json())
     .then(function (data) {
-      $('body').append("<script id=\"idScript\">$J('#idScript').append('<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">')</script>");
-      var id = $('#steamID').val()
-
-      $.each(data.designers, function () {
-        if (id == this) {
+      for (let i of data.designers) {
+        if (id === i) {
           loadDesignerBanner("designer");
         }
-      });
-
-      $.each(data.sapicstaff, function () {
-        if (id == this) {
+      }
+      for (let i of data.sapicstaff) {
+        if (id === i) {
           loadDesignerBanner("sapic");
         }
-      });
-
-      $.each(data.aevoa, function () {
-        if (id == this) {
+      }
+      for (let i of data.aevoa) {
+        if (id === i) {
           loadDesignerBanner("aevoa");
         }
-      });
-
-      $.each(data.donator, function () {
-        if (id == this) {
+      }
+      for (let i of data.donator) {
+        if (id === i) {
           loadDesignerBanner("donator");
         }
-      });
+      }
     });
+}
 
+const badgeConfig = {
+  designer: {
+    url: chrome.runtime.getURL("images/designer.png"),
+    href: "https://designerlist.guide",
+    text: "Verified Profile Designer",
+  },
+  sapic: {
+    url: chrome.runtime.getURL("images/sapic.png"),
+    href: "https://steam.design",
+    text: "Steam.Design Staff",
+  },
+  aevoa: {
+    url: chrome.runtime.getURL("images/aevoa.png"),
+    href: "https://steamcommunity.com/id/Aevoa/myworkshopfiles/?section=guides",
+    text: "150+ Guides Published",
+  },
+  donator: {
+    url: chrome.runtime.getURL("images/donator.png"),
+    href: "https://steam.design",
+    text: "Steam.Design Donator",
+  },
 }
 
 function loadDesignerBanner(banner) {
-  switch (banner) {
-    case "designer":
-      var imgurl = chrome.runtime.getURL("images/designer.png");
-      var href = "https://designerlist.guide";
-      var text = "Verified Profile Designer";
-      break;
-    case "sapic":
-      var imgurl = chrome.runtime.getURL("images/sapic.png");
-      var href = "https://Steam.Design";
-      var text = "Steam.Design Staff";
-      break;
-    case "aevoa":
-      var imgurl = chrome.runtime.getURL("images/aevoa.png");
-      var href = "https://steamcommunity.com/id/Aevoa/myworkshopfiles/?section=guides";
-      var text = "150+ Guides Published";
-      break;
-    case "donator":
-      var imgurl = chrome.runtime.getURL("images/donator.png");
-      var href = "https://Steam.Design";
-      var text = "Steam.Design Donator";
-      break;
+  if (badgeConfig[banner]) {
+    const config = badgeConfig[banner]
+    const el = document.getElementsByClassName("responsive_status_info")[0]
+    el.innerHTML += getBadgeHtml(config.url, config.href, config.text)
   }
-
-  var html = '<div class="profile_in_game persona offline sapicbadge"><div class="profile_in_game_header" style="color: white;font-size: 17px;"><img src="' + imgurl + '"></img><a class="hoverunderline" href="' + href + '" style="position: relative;bottom: 25px;left: 15px; color: white;">' + text + '</a></div></div>';
-  $('.profile_in_game.persona').not($('.sapicbadge')).after(html);
 }
 
-$(document).ready(function () {
-  $.ajaxSetup({ cache: false });
-  var href = window.location.href;
+function getBadgeHtml(url, href, text) {
+  return `
+    <div class="profile_in_game persona offline sapicbadge">
+      <div class="profile_in_game_header" style="color: white;font-size: 17px;">
+        <img src="${url}" style="width: 60px; height: 60px;">
+        <a class="hoverunderline" href="${href}" style="position: relative;bottom: 25px;left: 15px; color: white;">${text}</a>
+      </div>
+    </div>
+  `
+}
+
+window.addEventListener('load', function () {
+  const href = window.location.href
+
   if (/\/market\/listings\/753\//.test(href)) {
     scmSapicButton();
   } else if (/\/inventory\//.test(href)) {
@@ -149,12 +169,6 @@ $(document).ready(function () {
   } else if (/\/profiles\//.test(href) || /\/id\//.test(href)) {
     checkDesignerStatus();
   }
-
-  $('.long_sapic_button').on('click', function () {
-    $('#image_width').val('1000');
-    $('#image_height').val('1');
-    $(this).hide();
-  });
 });
 
 function isElement(obj) {

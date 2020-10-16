@@ -11,8 +11,7 @@ function dir() {
 
 function js() {
     return src([
-        './src/js/sapic-preview-button.js',
-        './src/js/jquery-3.4.1.min.js'
+        './src/js/*.js',
     ])
         .pipe(terser())
         .pipe(dest('./out/build'))
@@ -20,8 +19,7 @@ function js() {
 
 function jsDev() {
     return src([
-        './src/js/sapic-preview-button.js',
-        './src/js/jquery-3.4.1.min.js'
+        './src/js/*.js',
     ])
         .pipe(terser())
         .pipe(dest('./out/build'))
@@ -31,6 +29,7 @@ function build() {
     return src([
         './out/build/jquery-3.4.1.min.js',
         './out/build/sapic-preview-button.js',
+        './out/build/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
@@ -44,6 +43,7 @@ function dev() {
     return src([
         './out/build/jquery-3.4.1.min.js',
         './out/build/sapic-preview-button.js',
+        './out/build/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
