@@ -25,5 +25,10 @@
     ],
     "web_accessible_resources": [
         "images/*.png"
-    ]
+    ],
+    "background": {
+        "scripts": [
+            "hot-reload.js"
+        ]
+    }
 }

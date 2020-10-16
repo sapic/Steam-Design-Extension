@@ -1,6 +1,8 @@
 const { src, dest, parallel, series, watch } = require('gulp');
 const terser = require('gulp-terser');
 const zip = require('gulp-zip');
+const rename = require("gulp-rename");
+
 const del = require('del');
 const fs = require('fs');
 
@@ -28,11 +30,11 @@ function jsDev() {
 function build() {
     return src([
         './out/build/sapic-preview-button.js',
-        './out/build/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
-        './designers.json'
+        './designers.json',
+        "./src/assets/**",
     ])
         .pipe(zip('Steam-Design-Extension.zip'))
         .pipe(dest('./out'))
@@ -44,10 +46,15 @@ function dev() {
         './out/build/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
-        './src/manifest.json',
         './designers.json',
         "./src/assets/**",
     ])
+        .pipe(dest('./out'))
+}
+
+function devManifest() {
+    return src("./src/manifest_dev.json")
+        .pipe(rename('manifest.json'))
         .pipe(dest('./out'))
 }
 
@@ -74,6 +81,7 @@ exports.dev = function () {
         dir,
         jsDev,
         dev,
+        devManifest,
         clean
     )
 
