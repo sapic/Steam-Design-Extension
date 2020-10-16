@@ -19,6 +19,7 @@ function js() {
             outfile: 'bundle.js',
             bundle: true,
             minify: true,
+            target: 'es6',
         }))
         .pipe(dest('./out/build'))
 }
@@ -30,6 +31,7 @@ function jsDev() {
         .pipe(gulpEsbuild({
             outfile: 'bundle.js',
             bundle: true,
+            target: 'es6',
         }))
         .pipe(dest('./out/build'))
 }

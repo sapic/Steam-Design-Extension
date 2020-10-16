@@ -40,7 +40,7 @@ function getBadgeHtml(url, href, text) {
   `
 }
 
-function checkDesignerStatus() {
+async function checkDesignerStatus() {
   var script = document.createElement('script');
   script.innerHTML = `document.body.innerHTML += '<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">'`
   document.body.appendChild(script)
@@ -57,30 +57,27 @@ function checkDesignerStatus() {
     return
   }
 
-  getDesignersList().then(data => {
-    for (let i of data.designers) {
-      if (id === i) {
-        loadDesignerBanner("designer");
-      }
+  const data = await getDesignersList()
+  for (let i of data.designers) {
+    if (id === i) {
+      loadDesignerBanner("designer");
     }
-    for (let i of data.sapicstaff) {
-      if (id === i) {
-        loadDesignerBanner("sapic");
-      }
+  }
+  for (let i of data.sapicstaff) {
+    if (id === i) {
+      loadDesignerBanner("sapic");
     }
-    for (let i of data.aevoa) {
-      if (id === i) {
-        loadDesignerBanner("aevoa");
-      }
+  }
+  for (let i of data.aevoa) {
+    if (id === i) {
+      loadDesignerBanner("aevoa");
     }
-    for (let i of data.donator) {
-      if (id === i) {
-        loadDesignerBanner("donator");
-      }
+  }
+  for (let i of data.donator) {
+    if (id === i) {
+      loadDesignerBanner("donator");
     }
-  }).catch(err => {
-    console.log('get design err', err)
-  })
+  }
 }
 
 function getDesignersList() {
