@@ -14,7 +14,7 @@
                 "http://steamcommunity.com/*"
             ],
             "js": [
-                "sapic-preview-button.js"
+                "bundle.js"
             ],
             "run_at": "document_end"
         }

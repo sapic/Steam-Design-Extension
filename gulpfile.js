@@ -1,5 +1,5 @@
 const { src, dest, parallel, series, watch } = require('gulp');
-const terser = require('gulp-terser');
+const gulpEsbuild = require('gulp-esbuild')
 const zip = require('gulp-zip');
 const rename = require("gulp-rename");
 
@@ -13,23 +13,30 @@ function dir() {
 
 function js() {
     return src([
-        './src/js/*.js',
+        './src/js/index.js',
     ])
-        .pipe(terser())
+        .pipe(gulpEsbuild({
+            outfile: 'bundle.js',
+            bundle: true,
+            minify: true,
+        }))
         .pipe(dest('./out/build'))
 }
 
 function jsDev() {
     return src([
-        './src/js/*.js',
+        './src/js/index.js',
     ])
-        .pipe(terser())
+        .pipe(gulpEsbuild({
+            outfile: 'bundle.js',
+            bundle: true,
+        }))
         .pipe(dest('./out/build'))
 }
 
 function build() {
     return src([
-        './out/build/sapic-preview-button.js',
+        './out/build/bundle.js',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
@@ -42,8 +49,8 @@ function build() {
 
 function dev() {
     return src([
-        './out/build/sapic-preview-button.js',
-        './out/build/hot-reload.js',
+        './out/build/bundle.js',
+        './src/js/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
         './designers.json',

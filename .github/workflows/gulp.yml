@@ -16,12 +16,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: NPM Install
         run: |
-          npm install
-          sudo npm install -g chrome-webstore-upload-cli
+          yarn install --frozen-lockfile
       - name: Run Gulp
-        run: gulp
+        run: yarn gulp
       - name: Upload to Chrome Web Store
-        run: webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
+        run: yarn webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
         env:
           Client_ID: ${{ secrets.Client_ID }}
           Client_Secret: ${{ secrets.Client_Secret }}
