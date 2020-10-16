@@ -89,30 +89,28 @@ function checkDesignerStatus() {
 
   const id = userInfo.steamid
 
-  fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json")
-    .then(r => r.json())
-    .then(function (data) {
-      for (let i of data.designers) {
-        if (id === i) {
-          loadDesignerBanner("designer");
-        }
+  getDesignersList().then(data => {
+    for (let i of data.designers) {
+      if (id === i) {
+        loadDesignerBanner("designer");
       }
-      for (let i of data.sapicstaff) {
-        if (id === i) {
-          loadDesignerBanner("sapic");
-        }
+    }
+    for (let i of data.sapicstaff) {
+      if (id === i) {
+        loadDesignerBanner("sapic");
       }
-      for (let i of data.aevoa) {
-        if (id === i) {
-          loadDesignerBanner("aevoa");
-        }
+    }
+    for (let i of data.aevoa) {
+      if (id === i) {
+        loadDesignerBanner("aevoa");
       }
-      for (let i of data.donator) {
-        if (id === i) {
-          loadDesignerBanner("donator");
-        }
+    }
+    for (let i of data.donator) {
+      if (id === i) {
+        loadDesignerBanner("donator");
       }
-    });
+    }
+  })
 }
 
 const badgeConfig = {
@@ -159,7 +157,6 @@ function getBadgeHtml(url, href, text) {
 
 window.addEventListener('load', function () {
   const href = window.location.href
-  console.log('href', href)
 
   if (/\/market\/listings\/753\//.test(href)) {
     scmSapicButton();
@@ -187,4 +184,33 @@ function isElement(obj) {
       (obj.nodeType === 1) && (typeof obj.style === "object") &&
       (typeof obj.ownerDocument === "object");
   }
+}
+
+function getDesignersList() {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['designers'], function (result) {
+      if (result.designers) {
+        const timeSpent = Date.now() - result.designers.set_at
+        if (timeSpent < 60 * 60 * 24 * 1000) { // cache for 24 hours
+          return resolve(result.designers)
+        }
+      }
+
+      fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json")
+        .then(r => r.json())
+        .then(function (data) {
+          chrome.storage.sync.set({
+            designers: {
+              ...data,
+              set_at: Date.now(),
+            }
+          }, function () {
+            resolve(data)
+          })
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  })
 }

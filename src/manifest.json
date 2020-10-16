@@ -21,7 +21,8 @@
     ],
     "permissions": [
         "https://*.githubusercontent.com/*",
-        "http://*.githubusercontent.com/*"
+        "http://*.githubusercontent.com/*",
+        "storage"
     ],
     "web_accessible_resources": [
         "images/*.png"
