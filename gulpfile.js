@@ -1,6 +1,8 @@
-const { src, dest, parallel, series } = require('gulp');
-const uglify = require('gulp-uglify');
+const { src, dest, parallel, series, watch } = require('gulp');
+const gulpEsbuild = require('gulp-esbuild')
 const zip = require('gulp-zip');
+const rename = require("gulp-rename");
+
 const del = require('del');
 const fs = require('fs');
 
@@ -11,23 +13,55 @@ function dir() {
 
 function js() {
     return src([
-            './src/js/sapic-preview-button.js',
-            './src/js/jquery-3.4.1.min.js'
-        ])
-        .pipe(uglify())
+        './src/js/index.js',
+    ])
+        .pipe(gulpEsbuild({
+            outfile: 'bundle.js',
+            bundle: true,
+            minify: true,
+            target: 'es6',
+        }))
+        .pipe(dest('./out/build'))
+}
+
+function jsDev() {
+    return src([
+        './src/js/index.js',
+    ])
+        .pipe(gulpEsbuild({
+            outfile: 'bundle.js',
+            bundle: true,
+            target: 'es6',
+        }))
         .pipe(dest('./out/build'))
 }
 
 function build() {
     return src([
-            './out/build/jquery-3.4.1.min.js',
-            './out/build/sapic-preview-button.js',
-            './src/icon48.png',
-            './src/icon128.png',
-            './src/manifest.json',
-            './designers.json'
-        ])
+        './out/build/bundle.js',
+        './src/icon48.png',
+        './src/icon128.png',
+        './src/manifest.json',
+        "./src/assets/**",
+    ])
         .pipe(zip('Steam-Design-Extension.zip'))
+        .pipe(dest('./out'))
+}
+
+function dev() {
+    return src([
+        './out/build/bundle.js',
+        './src/js/hot-reload.js',
+        './src/icon48.png',
+        './src/icon128.png',
+        "./src/assets/**",
+    ])
+        .pipe(dest('./out'))
+}
+
+function devManifest() {
+    return src("./src/manifest_dev.json")
+        .pipe(rename('manifest.json'))
         .pipe(dest('./out'))
 }
 
@@ -48,3 +82,17 @@ exports.default = series(
     build,
     clean
 )
+
+exports.dev = function () {
+    const devPipeline = series(
+        dir,
+        jsDev,
+        dev,
+        devManifest,
+        clean
+    )
+
+    devPipeline()
+
+    watch('src/**', devPipeline)
+}

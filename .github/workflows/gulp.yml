@@ -1,25 +1,27 @@
 name: Steam.Design Extension Test/Upload
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: NPM Install
-      run: |
-        npm install
-        sudo npm install -g chrome-webstore-upload-cli
-    - name: Run Gulp
-      run: gulp
-    - name: Upload to Chrome Web Store
-      run: webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
-      env:
-        Client_ID: ${{ secrets.Client_ID }}
-        Client_Secret: ${{ secrets.Client_Secret }}
-        Refresh_Token: ${{ secrets.Refresh_Token }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: NPM Install
+        run: |
+          yarn install --frozen-lockfile
+      - name: Run Gulp
+        run: yarn gulp
+      - name: Upload to Chrome Web Store
+        run: yarn webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
+        env:
+          Client_ID: ${{ secrets.Client_ID }}
+          Client_Secret: ${{ secrets.Client_Secret }}
+          Refresh_Token: ${{ secrets.Refresh_Token }}
