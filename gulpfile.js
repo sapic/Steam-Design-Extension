@@ -45,7 +45,7 @@ function build() {
         "./src/assets/**",
     ])
         .pipe(zip('Steam-Design-Extension.zip'))
-        .pipe(dest('./out'))
+        .pipe(dest('./out-zip'))
 }
 
 function dev() {
@@ -72,6 +72,7 @@ function clean() {
 exports.test = series(
     dir,
     js,
+    dev,
     build,
     clean
 )
@@ -79,6 +80,7 @@ exports.test = series(
 exports.default = series(
     dir,
     js,
+    dev,
     build,
     clean
 )
