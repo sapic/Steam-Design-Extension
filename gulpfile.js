@@ -42,7 +42,6 @@ function build() {
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
-        './designers.json',
         "./src/assets/**",
     ])
         .pipe(zip('Steam-Design-Extension.zip'))
@@ -55,7 +54,6 @@ function dev() {
         './src/js/hot-reload.js',
         './src/icon48.png',
         './src/icon128.png',
-        './designers.json',
         "./src/assets/**",
     ])
         .pipe(dest('./out'))
