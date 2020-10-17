@@ -20,7 +20,7 @@ jobs:
       - name: Run Gulp
         run: yarn gulp
       - name: Upload to FireFox
-        run: yarn web-ext-submit --api-key=${FF_USER} --api-secret=${FF_SECRET} --id=${FF_ID} -s out
+        run: yarn web-ext-submit --api-key=${FF_USER} --api-secret=${FF_SECRET} --id=${FF_ID} -s ./out
         env:
           FF_USER: ${{ secrets.FF_USER }}
           FF_SECRET: ${{ secrets.FF_SECRET }}
