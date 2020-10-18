@@ -4,8 +4,13 @@ function longImageButton() {
   const heightInput = document.getElementById('image_height')
 
   selectElement.addEventListener('load', (event) => {
-    widthInput.value = 1000
-    heightInput.value = 1
+    const width = widthInput.value
+    const height = heightInput.value
+
+    if (height > width && height > 506) {
+      widthInput.value = 1000
+      heightInput.value = 1
+    }
   });
 
   injectScript(chrome.extension.getURL('massUpload.js'), 'body');

@@ -19,6 +19,7 @@ const FilesContainer = styled.div`
 
 const PreviewImage = styled.img`
   width: 80px;
+  max-height: 80px;
   margin-right: 20px;
 `
 
@@ -46,9 +47,22 @@ const FilePreview = styled.div`
 const FileRemove = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 80px;
+  margin-left: 20px;
   color: red;
   cursor: pointer;
+`
+const FileDone = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: green;
+`
+
+const FileError = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: red;
 `
 
 function DropZone(props) {
@@ -69,7 +83,7 @@ function DropZone(props) {
   const fileDrop = (e) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
-    console.log(files);
+
     if (files.length) {
       handleFiles(files);
     }
@@ -100,16 +114,60 @@ function DropZone(props) {
     setSelectedFiles([...selectedFiles]);
   }
 
+  const getFileDimensions = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const i = new Image();
+
+        i.onload = (function (e) {
+          var height, width;
+          width = e.target.width;
+          height = e.target.height;
+
+          resolve({ width, height });
+        });
+
+        return i.src = reader.result;
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
   const uploadFiles = async () => {
     const itemForm = document.querySelector(`#SubmitItemForm`)
-    itemForm.setAttribute("target", "_blank")
+    const widthInput = document.getElementById('image_width')
+    const heightInput = document.getElementById('image_height')
 
-    for (const file of selectedFiles) {
+    const localFiles = [...selectedFiles]
+    for (let i = 0; i < localFiles.length; i++) {
+      localFiles[i]['done'] = undefined
+      localFiles[i]['error'] = undefined
+    }
+
+    setSelectedFiles(localFiles)
+
+    for (let i = 0; i < localFiles.length; i++) {
+      const file = localFiles[i]
+      const frameid = 'upload_frame' + Date.now()
+      const frame = document.createElement('iframe')
+      frame.setAttribute('id', frameid)
+      frame.setAttribute('name', frameid)
+      frame.setAttribute('style', `display: none;position: absolute;`)
+
+      document.body.appendChild(frame)
+
+      itemForm.setAttribute("target", frameid)
       document.querySelector(`#file`).files = new FileListItems([file.file])
-      const widthInput = document.getElementById('image_width')
-      const heightInput = document.getElementById('image_height')
-      widthInput.value = 1000
-      heightInput.value = 1
+
+      const { width, height } = await getFileDimensions(file.file)
+      if (height > width && height > 506) {
+        widthInput.value = 1000
+        heightInput.value = 1
+      } else {
+        widthInput.value = width
+        heightInput.value = height
+      }
 
       if (file.name) {
         document.querySelector(`#title`).setAttribute('value', file.name)
@@ -117,10 +175,51 @@ function DropZone(props) {
         document.querySelector(`#title`).setAttribute('value', file.file.name)
       }
 
-      console.log('title', document.querySelector(`#title`).getAttribute('value'))
       document.querySelector(`#agree_terms`).checked = true
-      itemForm.submit()
-      await delay(1000)
+      const submitres = itemForm.submit()
+
+      const frameLoaded = new Promise((resolve, reject) => {
+        frame.addEventListener('load', () => {
+
+          const innerDoc = frame.contentDocument || frame.contentWindow.document;
+          const idEl = innerDoc.getElementById("application_root")
+
+          if (!idEl) {
+            const messageEl = innerDoc.getElementById('message')
+            if (messageEl) {
+              return reject(messageEl.innerText)
+            }
+            reject()
+            return
+          }
+          const id = idEl.getAttribute('data-publishedfileid')
+
+          if (!id || id === '') {
+            reject()
+            return
+          }
+
+          resolve(id)
+        }, false);
+      })
+
+      try {
+        const id = await frameLoaded
+
+        const files = [...localFiles]
+        files[i].done = true
+        files[i].id = id
+        setSelectedFiles(files)
+      } catch (e) {
+        const files = [...localFiles]
+        files[i].error = true
+        if (e) {
+          files[i].errorText = e
+        }
+        setSelectedFiles(files)
+      }
+
+      frame.parentNode.removeChild(frame)
     }
   }
 
@@ -155,7 +254,6 @@ function DropZone(props) {
                       const files = [...selectedFiles]
                       files[i].name = e.target.value
                       setSelectedFiles(files)
-                      return e
                     }}
                   ></input>
                 </div>
@@ -163,6 +261,18 @@ function DropZone(props) {
               <FileRemove onClick={() => removeFile(data.file.name)}>
                 <div>Delete</div>
               </FileRemove>
+              {data.done &&
+                <FileDone>
+                  <a
+                    href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${data.id}`}
+                    target="_blank"
+                  >
+                    Done (Clickable)
+                   </a>
+                </FileDone>}
+              {data.error && <FileError>
+                {data.errorText ? data.errorText : 'Error'}
+              </FileError>}
             </FilePreview>
           )
         }
@@ -173,7 +283,7 @@ function DropZone(props) {
           <span>Upload files</span>
         </a>
       }
-    </Container>
+    </Container >
   )
 }
 

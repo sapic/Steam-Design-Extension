@@ -33,11 +33,5 @@
         "scripts": [
             "hot-reload.js"
         ]
-    },
-    "externally_connectable": {
-        "matches": [
-            "*://*.steamcommunity.com/*",
-            "*://steamcommunity.com/*"
-        ]
     }
 }

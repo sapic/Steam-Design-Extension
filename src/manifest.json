@@ -27,10 +27,5 @@
     "web_accessible_resources": [
         "images/*.png",
         "massUpload.js"
-    ],
-    "externally_connectable": {
-        "matches": [
-            "*://*.steamcommunity.com/*"
-        ]
-    }
+    ]
 }
