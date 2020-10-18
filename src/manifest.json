@@ -25,6 +25,12 @@
         "storage"
     ],
     "web_accessible_resources": [
-        "images/*.png"
-    ]
+        "images/*.png",
+        "massUpload.js"
+    ],
+    "externally_connectable": {
+        "matches": [
+            "*://*.steamcommunity.com/*"
+        ]
+    }
 }

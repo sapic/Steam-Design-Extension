@@ -22,14 +22,23 @@
     "permissions": [
         "https://*.githubusercontent.com/*",
         "http://*.githubusercontent.com/*",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "web_accessible_resources": [
-        "images/*.png"
+        "images/*.png",
+        "massUpload.js"
     ],
     "background": {
         "scripts": [
-            "hot-reload.js"
+            "hot-reload.js",
+            "background.js"
+        ]
+    },
+    "externally_connectable": {
+        "matches": [
+            "*://*.steamcommunity.com/*",
+            "*://steamcommunity.com/*"
         ]
     }
 }
