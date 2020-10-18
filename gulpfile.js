@@ -83,7 +83,6 @@ function dev() {
     return src([
         './out/build/bundle.js',
         './src/js/hot-reload.js',
-        './src/js/background.js',
         './out/build/massUpload.js',
         './src/icon48.png',
         './src/icon128.png',
