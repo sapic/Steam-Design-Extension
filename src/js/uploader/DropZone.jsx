@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  /* height: 100px; */
 `
 
 const DropContainer = styled.div`
@@ -15,11 +14,41 @@ const DropContainer = styled.div`
 
 const FilesContainer = styled.div`
   display: flex;
+  flex-direction: column;
 `
 
 const PreviewImage = styled.img`
-  /* width: 100px; */
+  width: 80px;
+  margin-right: 20px;
+`
+
+const FileInfo = styled.div` 
   height: 80px;
+  display: flex;
+  align-items: center;
+`
+
+const DndMessage = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const FilePreview = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+`
+
+const FileRemove = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 80px;
+  color: red;
+  cursor: pointer;
 `
 
 function DropZone(props) {
@@ -49,18 +78,16 @@ function DropZone(props) {
   const handleFiles = (files) => {
     for (let i = 0; i < files.length; i++) {
       if (validateFile(files[i])) {
-        setSelectedFiles(prevArray => [...prevArray, files[i]]);
-        // add to an array so we can display the name of file
-      } else {
-        // add a new property called invalid
-        // add to the same array so we can display the name of the file
-        // set error message
+        setSelectedFiles(prevArray => [...prevArray, {
+          file: files[i],
+          name: files[i].name,
+        }]);
       }
     }
   }
 
   const validateFile = (file) => {
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/x-icon'];
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
     if (validTypes.indexOf(file.type) === -1) {
       return false;
     }
@@ -68,106 +95,36 @@ function DropZone(props) {
   }
 
   const removeFile = (name) => {
-    // find the index of the item
-    // remove the item from array
-
-    const selectedFileIndex = selectedFiles.findIndex(e => e.name === name);
+    const selectedFileIndex = selectedFiles.findIndex(e => e.file.name === name);
     selectedFiles.splice(selectedFileIndex, 1);
-    // update selectedFiles array
     setSelectedFiles([...selectedFiles]);
   }
 
-  const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-
   const uploadFiles = async () => {
-    console.log('uploadFiles')
     const itemForm = document.querySelector(`#SubmitItemForm`)
-
-    let msg = {}
-
-    const inputsList = [
-      "redirect_uri",
-      "wg",
-      "wg_hmac",
-      "appid",
-      "consumer_app_id",
-      "sessionid",
-      "token",
-      "cloudfilenameprefix",
-      "publishedfileid",
-      "id",
-      "file_type",
-      // "image_width",
-      // "image_height",
-    ]
-    for (const name of inputsList) {
-      const x = document.querySelector(`#SubmitItemForm > input[name="${name}"]`);
-      console.log(name, x)
-      msg[name] = x.getAttribute('value')
-    }
-
-    // const form = new FormData(itemForm)
-    // itemForm.set('image_width', 1000)
-    // itemForm.set('image_height', 1)
-    // itemForm.set('title', 'test')
-    // itemForm.set('file-upload-button', selectedFiles[0])
-    // itemForm.set('visibility', 0)
-    // itemForm.set('agree_terms', 'checked')
-
-    document.querySelector(`#file`).files = new FileListItems([selectedFiles[0]])
-    const widthInput = document.getElementById('image_width')
-    const heightInput = document.getElementById('image_height')
-    widthInput.value = 1000
-    heightInput.value = 1
-
-    document.querySelector(`#title`).setAttribute('value', 'test')
-    document.querySelector(`#agree_terms`).checked = true
-    // agree_terms
-
-
     itemForm.setAttribute("target", "_blank")
-    itemForm.submit()
 
-    // const form = new FormData(itemForm)
-    // form.set('image_width', 1000)
-    // form.set('image_height', 1)
-    // form.set('title', 'test')
-    // form.set('file-upload-button', selectedFiles[0])
-    // form.set('visibility', 0)
-    // form.set('agree_terms', 'checked')
+    for (const file of selectedFiles) {
+      document.querySelector(`#file`).files = new FileListItems([file.file])
+      const widthInput = document.getElementById('image_width')
+      const heightInput = document.getElementById('image_height')
+      widthInput.value = 1000
+      heightInput.value = 1
 
-    // msg['image_width'] = 1000
-    // msg['image_height'] = 1
-    // msg['title'] = 'test'
-    // msg['file-upload-button'] = await toBase64(selectedFiles[0])
-    // msg['visibility'] = 0
-    // msg['agree_terms'] = 'checked'
+      if (file.name) {
+        document.querySelector(`#title`).setAttribute('value', file.name)
+      } else {
+        document.querySelector(`#title`).setAttribute('value', file.file.name)
+      }
 
-    // const url = itemForm.getAttribute('action')
-
-    // chrome.runtime.sendMessage('hpgkiojfimnfdfkhnaolfkcfcohbfcao', {
-    //   url,
-    //   body: msg
-    // }, function (response) {
-    //   console.log(response.farewell);
-    // });
-
-    // fetch(url, { // Your POST endpoint
-    //   method: 'POST',
-    //   body: form // This is your file object
-    // }).then(
-    //   response => response.json() // if the response is a JSON object
-    // ).then(
-    //   success => console.log(success) // Handle the success response object
-    // ).catch(
-    //   error => console.log(error) // Handle the error response object
-    // );
+      console.log('title', document.querySelector(`#title`).getAttribute('value'))
+      document.querySelector(`#agree_terms`).checked = true
+      itemForm.submit()
+      await delay(1000)
+    }
   }
+
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
   return (
     <Container>
@@ -177,28 +134,45 @@ function DropZone(props) {
         onDragLeave={dragLeave}
         onDrop={fileDrop}
       >
-        {selectedFiles.length === 0
-          ? <div className="drop-message">
-            <div className="upload-icon"></div>
-            Drag & Drop files here or click to upload
-          </div>
-          : <FilesContainer>
-            {
-              selectedFiles.map((data, i) =>
-                <div className="file-status-bar" key={i}>
-                  <div>
-                    <PreviewImage src={URL.createObjectURL(data)}></PreviewImage>
-                  </div>
-                  <div className="file-remove" onClick={() => removeFile(data.name)}>X</div>
-                </div>
-              )
-            }
-          </FilesContainer>
-        }
+        <DndMessage>
+          <div >Drag & Drop files here</div>
+        </DndMessage>
       </DropContainer>
-      <a className="btn_blue_white_innerfade btn_medium" onClick={() => uploadFiles()}>
-        <span>Upload files</span>
-      </a>
+      <FilesContainer>
+        {
+          selectedFiles.map((data, i) =>
+            <FilePreview key={i}>
+              <FileInfo>
+                <PreviewImage src={URL.createObjectURL(data.file)}></PreviewImage>
+                <div>
+                  <label>Title: </label>
+                  <input
+                    type="text"
+                    className="titleField"
+                    maxLength="128"
+                    value={data.name}
+                    onChange={(e) => {
+                      const files = [...selectedFiles]
+                      files[i].name = e.target.value
+                      setSelectedFiles(files)
+                      return e
+                    }}
+                  ></input>
+                </div>
+              </FileInfo>
+              <FileRemove onClick={() => removeFile(data.file.name)}>
+                <div>Delete</div>
+              </FileRemove>
+            </FilePreview>
+          )
+        }
+      </FilesContainer>
+      {
+        selectedFiles.length > 0 &&
+        <a className="btn_blue_white_innerfade btn_medium" onClick={() => uploadFiles()}>
+          <span>Upload files</span>
+        </a>
+      }
     </Container>
   )
 }

@@ -31,8 +31,7 @@
     ],
     "background": {
         "scripts": [
-            "hot-reload.js",
-            "background.js"
+            "hot-reload.js"
         ]
     },
     "externally_connectable": {
