@@ -36,9 +36,40 @@ function jsDev() {
         .pipe(dest('./out/build'))
 }
 
+function uploadJs() {
+    return src([
+        './src/js/massUpload.jsx',
+    ])
+        .pipe(gulpEsbuild({
+            outfile: 'massUpload.js',
+            bundle: true,
+            target: 'es6',
+            define: {
+                'process.env.NODE_ENV': '"production"'
+            },
+        }))
+        .pipe(dest('./out/build'))
+}
+
+function uploadJsDev() {
+    return src([
+        './src/js/massUpload.jsx',
+    ])
+        .pipe(gulpEsbuild({
+            outfile: 'massUpload.js',
+            bundle: true,
+            target: 'es6',
+            define: {
+                'process.env.NODE_ENV': '"development"'
+            },
+        }))
+        .pipe(dest('./out/build'))
+}
+
 function buildZIP() {
     return src([
         './out/build/bundle.js',
+        './out/build/massUpload.js',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
@@ -51,6 +82,7 @@ function buildZIP() {
 function buildFF() {
     return src([
         './out/build/bundle.js',
+        './out/build/massUpload.js',
         './src/manifest.json',
         './src/icon48.png',
         './src/icon128.png',
@@ -63,6 +95,7 @@ function dev() {
     return src([
         './out/build/bundle.js',
         './src/js/hot-reload.js',
+        './out/build/massUpload.js',
         './src/icon48.png',
         './src/icon128.png',
         "./src/assets/**",
@@ -80,17 +113,10 @@ function clean() {
     return del('./out/build')
 }
 
-exports.test = series(
-    dir,
-    js,
-    buildZIP,
-    buildFF,
-    clean
-)
-
 exports.default = series(
     dir,
     js,
+    uploadJs,
     buildFF,
     buildZIP,
     clean
@@ -100,6 +126,7 @@ exports.dev = function () {
     const devPipeline = series(
         dir,
         jsDev,
+        uploadJsDev,
         dev,
         devManifest,
         clean

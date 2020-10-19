@@ -22,10 +22,12 @@
     "permissions": [
         "https://*.githubusercontent.com/*",
         "http://*.githubusercontent.com/*",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "web_accessible_resources": [
-        "images/*.png"
+        "images/*.png",
+        "massUpload.js"
     ],
     "background": {
         "scripts": [

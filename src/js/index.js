@@ -2,6 +2,7 @@ import InventoryHandler from './inventory'
 import ProfileHandler from './profile'
 import UploadHandler from './upload'
 import MarketHandler from './market'
+import ArtworkListHandler from './artworkList'
 
 window.addEventListener('load', function () {
   const href = window.location.href
@@ -12,8 +13,9 @@ window.addEventListener('load', function () {
     InventoryHandler()
   } else if (/\/sharedfiles\/edititem\/767\/3/.test(href)) {
     UploadHandler()
-  } else if ((/\/profiles\//.test(href) || /\/id\//.test(href)) && (!/\/edit\//.test(href))) {
+  } else if (/\/profiles\/[^\/]*$/.test(href) || /\/id\/[^\/]*$/.test(href)) {
     ProfileHandler()
+  } else if (/steamcommunity\.com\/.+\/images\//.test(href)) {
+    ArtworkListHandler()
   }
 })
-
