@@ -20,6 +20,9 @@ function js() {
             bundle: true,
             minify: true,
             target: 'es6',
+            define: {
+                'process.env.NODE_ENV': '"production"'
+            },
         }))
         .pipe(dest('./out/build'))
 }
@@ -43,6 +46,7 @@ function uploadJs() {
         .pipe(gulpEsbuild({
             outfile: 'massUpload.js',
             bundle: true,
+            minify: true,
             target: 'es6',
             define: {
                 'process.env.NODE_ENV': '"production"'
