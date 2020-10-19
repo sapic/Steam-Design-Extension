@@ -14,6 +14,7 @@ function longImageButton() {
   });
 
   injectScript(chrome.extension.getURL('massUpload.js'), 'body');
+  injectStyle(chrome.extension.getURL('massUpload.css'), 'body');
 }
 
 function injectScript(file, node) {
@@ -21,6 +22,15 @@ function injectScript(file, node) {
   var s = document.createElement('script');
   s.setAttribute('type', 'text/javascript');
   s.setAttribute('src', file);
+  th.appendChild(s);
+}
+
+function injectStyle(file, node) {
+  var th = document.getElementsByTagName(node)[0];
+  var s = document.createElement('link');
+  s.setAttribute('rel', 'stylesheet');
+  s.setAttribute('type', 'text/css');
+  s.setAttribute('href', file);
   th.appendChild(s);
 }
 

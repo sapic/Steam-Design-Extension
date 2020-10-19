@@ -1,5 +1,4 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import * as preact from 'preact'
 
 import App from './uploader/index.jsx'
 
@@ -13,7 +12,7 @@ function main() {
   // insert the element before target element
   target.parentNode.insertBefore(el, target);
 
-  ReactDOM.render(
+  preact.render(
     <App />,
     document.getElementById('uploadVue')
   );
