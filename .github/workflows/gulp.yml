@@ -19,15 +19,15 @@ jobs:
           yarn install --frozen-lockfile
       - name: Run Gulp
         run: yarn gulp
-      - name: Upload to Chrome Web Store
-        run: yarn webstore upload --source ./out/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
-        env:
-          Client_ID: ${{ secrets.Client_ID }}
-          Client_Secret: ${{ secrets.Client_Secret }}
-          Refresh_Token: ${{ secrets.Refresh_Token }}
       - name: Upload to FireFox
-        run: yarn web-ext-submit --api-key=${FF_USER} --api-secret=${FF_SECRET} --id=${FF_ID}
+        run: yarn web-ext-submit --api-key=${FF_USER} --api-secret=${FF_SECRET} --id=${FF_ID} -s ./out
         env:
           FF_USER: ${{ secrets.FF_USER }}
           FF_SECRET: ${{ secrets.FF_SECRET }}
           FF_ID: ${{ secrets.FF_ID }}
+      - name: Upload to Chrome Web Store
+        run: yarn webstore upload --source ./out-zip/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
+        env:
+          Client_ID: ${{ secrets.Client_ID }}
+          Client_Secret: ${{ secrets.Client_Secret }}
+          Refresh_Token: ${{ secrets.Refresh_Token }}

@@ -1,4 +1,4 @@
-const { src, dest, parallel, series, watch } = require('gulp');
+const { src, dest, series, watch } = require('gulp');
 const gulpEsbuild = require('gulp-esbuild')
 const zip = require('gulp-zip');
 const rename = require("gulp-rename");
@@ -66,7 +66,7 @@ function uploadJsDev() {
         .pipe(dest('./out/build'))
 }
 
-function build() {
+function buildZIP() {
     return src([
         './out/build/bundle.js',
         './out/build/massUpload.js',
@@ -76,6 +76,18 @@ function build() {
         "./src/assets/**",
     ])
         .pipe(zip('Steam-Design-Extension.zip'))
+        .pipe(dest('./out-zip'))
+}
+
+function buildFF() {
+    return src([
+        './out/build/bundle.js',
+        './out/build/massUpload.js',
+        './src/manifest.json',
+        './src/icon48.png',
+        './src/icon128.png',
+        "./src/assets/**",
+    ])
         .pipe(dest('./out'))
 }
 
@@ -105,7 +117,8 @@ exports.default = series(
     dir,
     js,
     uploadJs,
-    build,
+    buildFF,
+    buildZIP,
     clean
 )
 
