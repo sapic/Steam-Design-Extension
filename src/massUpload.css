@@ -1,0 +1,64 @@
+.spe__Container {
+  width: 100%;
+}
+
+.spe__DropContainer {
+  width: 100%;
+  height: 100px;
+  border: 5px solid white;
+  border-style: dashed;
+}
+
+.spe__FilesContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.spe__PreviewImage {
+  width: 80px;
+  max-height: 80px;
+  margin-right: 20px;
+}
+
+.spe__FileInfo {
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.spe__DndMessage {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spe__FilePreview {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.spe__FileRemove {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.spe__FileDone {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: green;
+}
+
+.spe__FileError {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: red;
+}

@@ -51,6 +51,8 @@ function uploadJs() {
             define: {
                 'process.env.NODE_ENV': '"production"'
             },
+            jsxFactory: 'preact.h',
+            jsxFragment: 'preact.Fragment',
         }))
         .pipe(dest('./out/build'))
 }
@@ -66,6 +68,8 @@ function uploadJsDev() {
             define: {
                 'process.env.NODE_ENV': '"development"'
             },
+            jsxFactory: 'preact.h',
+            jsxFragment: 'preact.Fragment',
         }))
         .pipe(dest('./out/build'))
 }
@@ -74,6 +78,7 @@ function buildZIP() {
     return src([
         './out/build/bundle.js',
         './out/build/massUpload.js',
+        './src/massUpload.css',
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
@@ -87,6 +92,7 @@ function buildFF() {
     return src([
         './out/build/bundle.js',
         './out/build/massUpload.js',
+        './src/massUpload.css',
         './src/manifest.json',
         './src/icon48.png',
         './src/icon128.png',
@@ -100,6 +106,7 @@ function dev() {
         './out/build/bundle.js',
         './src/js/hot-reload.js',
         './out/build/massUpload.js',
+        './src/massUpload.css',
         './src/icon48.png',
         './src/icon128.png',
         "./src/assets/**",

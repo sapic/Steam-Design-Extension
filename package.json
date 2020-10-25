@@ -1,6 +1,6 @@
 {
     "name": "sapic-extension",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "scripts": {
         "dev": "gulp dev",
         "build": "gulp default"
@@ -16,8 +16,6 @@
     },
     "dependencies": {
         "gulp-esbuild": "^0.1.27",
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "styled-components": "^5.2.0"
+        "preact": "^10.5.5"
     }
 }

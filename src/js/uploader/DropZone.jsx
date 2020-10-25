@@ -1,69 +1,5 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  width: 100%;
-`
-
-const DropContainer = styled.div`
-  width: 100%;
-  height: 100px;
-  border: 5px solid white;
-  border-style: dashed;
-`
-
-const FilesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const PreviewImage = styled.img`
-  width: 80px;
-  max-height: 80px;
-  margin-right: 20px;
-`
-
-const FileInfo = styled.div` 
-  height: 80px;
-  display: flex;
-  align-items: center;
-`
-
-const DndMessage = styled.div`
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  font-size: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const FilePreview = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`
-
-const FileRemove = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  color: red;
-  cursor: pointer;
-`
-const FileDone = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  color: green;
-`
-
-const FileError = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  color: red;
-`
+import * as preact from 'preact'
+import { useState } from 'preact/hooks'
 
 function DropZone(props) {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -176,7 +112,6 @@ function DropZone(props) {
       }
 
       document.querySelector(`#agree_terms`).checked = true
-      const submitres = itemForm.submit()
 
       const frameLoaded = new Promise((resolve, reject) => {
         frame.addEventListener('load', () => {
@@ -223,26 +158,27 @@ function DropZone(props) {
     }
   }
 
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
-
   return (
-    <Container>
-      <DropContainer
+    <div className="spe__Container">
+      <div className="spe__DropContainer"
         onDragOver={dragOver}
         onDragEnter={dragEnter}
         onDragLeave={dragLeave}
         onDrop={fileDrop}
       >
-        <DndMessage>
+        <div className="spe__DndMessage">
           <div >Drag & Drop files here</div>
-        </DndMessage>
-      </DropContainer>
-      <FilesContainer>
+        </div>
+      </div>
+      <div className="spe__FilesContainer">
         {
           selectedFiles.map((data, i) =>
-            <FilePreview key={i}>
-              <FileInfo>
-                <PreviewImage src={URL.createObjectURL(data.file)}></PreviewImage>
+            <div className="spe__FilePreview" key={i}>
+              <div className="spe__FileInfo">
+                <img
+                  className="spe__PreviewImage"
+                  src={URL.createObjectURL(data.file)}
+                ></img>
                 <div>
                   <label>Title: </label>
                   <input
@@ -257,33 +193,33 @@ function DropZone(props) {
                     }}
                   ></input>
                 </div>
-              </FileInfo>
-              <FileRemove onClick={() => removeFile(data.file.name)}>
+              </div>
+              <div className="spe__FileRemove" onClick={() => removeFile(data.file.name)}>
                 <div>Delete</div>
-              </FileRemove>
+              </div>
               {data.done &&
-                <FileDone>
+                <div className="spe__FileDone">
                   <a
                     href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${data.id}`}
                     target="_blank"
                   >
                     Done (Clickable)
                    </a>
-                </FileDone>}
-              {data.error && <FileError>
+                </div>}
+              {data.error && <div className="spe__FileError">
                 {data.errorText ? data.errorText : 'Error'}
-              </FileError>}
-            </FilePreview>
+              </div>}
+            </div>
           )
         }
-      </FilesContainer>
+      </div>
       {
         selectedFiles.length > 0 &&
         <a className="btn_blue_white_innerfade btn_medium" onClick={() => uploadFiles()}>
           <span>Upload files</span>
         </a>
       }
-    </Container >
+    </div >
   )
 }
 
