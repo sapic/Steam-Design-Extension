@@ -106,9 +106,9 @@ function DropZone(props) {
       }
 
       if (file.name) {
-        document.querySelector(`#title`).setAttribute('value', file.name)
+        document.querySelector(`#title`).value = file.name
       } else {
-        document.querySelector(`#title`).setAttribute('value', file.file.name)
+        document.querySelector(`#title`).value = file.file.name
       }
 
       document.querySelector(`#agree_terms`).checked = true
@@ -139,6 +139,7 @@ function DropZone(props) {
       })
 
       try {
+        itemForm.submit()
         const id = await frameLoaded
 
         const files = [...localFiles]
