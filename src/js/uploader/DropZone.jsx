@@ -18,6 +18,7 @@ function DropZone(props) {
 
   const fileDrop = (e) => {
     e.preventDefault();
+    TrackGA('files_drop')
     const files = e.dataTransfer.files;
 
     if (files.length) {
@@ -71,6 +72,8 @@ function DropZone(props) {
   }
 
   const uploadFiles = async () => {
+    TrackGA('upload_clicked')
+
     const itemForm = document.querySelector(`#SubmitItemForm`)
     const widthInput = document.getElementById('image_width')
     const heightInput = document.getElementById('image_height')
@@ -146,6 +149,7 @@ function DropZone(props) {
         files[i].done = true
         files[i].id = id
         setSelectedFiles(files)
+        TrackGA('upload_success')
       } catch (e) {
         const files = [...localFiles]
         files[i].error = true
@@ -153,6 +157,7 @@ function DropZone(props) {
           files[i].errorText = e
         }
         setSelectedFiles(files)
+        TrackGA('upload_error')
       }
 
       frame.parentNode.removeChild(frame)
@@ -228,6 +233,25 @@ function FileListItems(files) {
   var b = new ClipboardEvent("").clipboardData || new DataTransfer()
   for (var i = 0, len = files.length; i < len; i++) b.items.add(files[i])
   return b.files
+}
+
+function TrackGA(page) {
+  if (!fetch) {
+    return
+  }
+  const measurement_id = `G-9YSXRY4VTK`;
+  const api_secret = `D-eXzbjMS0GDLjYqg8OqcQ`;
+
+  fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`, {
+    method: "POST",
+    body: JSON.stringify({
+      client_id: '331601645.1601326977',
+      events: [{
+        name: page,
+        params: {},
+      }]
+    })
+  });
 }
 
 
