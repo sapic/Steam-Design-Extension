@@ -12,6 +12,7 @@
 .spe__FilesContainer {
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 }
 
 .spe__PreviewImage {
@@ -56,9 +57,16 @@
   color: green;
 }
 
+.spe__FileUploading {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
 .spe__FileError {
   display: flex;
   align-items: center;
   margin-left: 20px;
   color: red;
+  max-width: 200px;
 }

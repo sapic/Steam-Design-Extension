@@ -28,12 +28,25 @@ function DropZone(props) {
 
   const handleFiles = (files) => {
     for (let i = 0; i < files.length; i++) {
-      if (validateFile(files[i])) {
-        setSelectedFiles(prevArray => [...prevArray, {
-          file: files[i],
-          name: files[i].name,
-        }]);
+      if (!validateFile(files[i])) {
+        continue
       }
+
+      let hasSame = false
+      for (const existingFile of selectedFiles) {
+        if (isFilesSame(existingFile.file, files[i])) {
+          hasSame = true
+          break
+        }
+      }
+      if (hasSame) {
+        continue
+      }
+
+      setSelectedFiles(prevArray => [...prevArray, {
+        file: files[i],
+        name: files[i].name,
+      }]);
     }
   }
 
@@ -87,6 +100,11 @@ function DropZone(props) {
     setSelectedFiles(localFiles)
 
     for (let i = 0; i < localFiles.length; i++) {
+      const files = [...localFiles]
+      files[i].working = true
+      // files[i].id = id
+      setSelectedFiles(files)
+
       const file = localFiles[i]
       const frameid = 'upload_frame' + Date.now()
       const frame = document.createElement('iframe')
@@ -139,7 +157,7 @@ function DropZone(props) {
 
           resolve(id)
         }, false);
-      })
+      });
 
       try {
         itemForm.submit()
@@ -147,17 +165,47 @@ function DropZone(props) {
 
         const files = [...localFiles]
         files[i].done = true
+        files[i].working = false
         files[i].id = id
         setSelectedFiles(files)
         TrackGA('upload_success')
       } catch (e) {
+        const uploadParams = {}
+
         const files = [...localFiles]
         files[i].error = true
+        files[i].working = false
+
         if (e) {
           files[i].errorText = e
+
+          if (typeof e === 'string') {
+            let text = e
+            for (let j = 0; j < 10; j++) {
+              if (text.length < 1) {
+                break
+              }
+              let js = ""
+              for (let i = 0; i < 34; i++) {
+                if (text.length < 1) {
+                  break
+                }
+
+                let char = text[0]
+                text = text.substring(1)
+
+                js += char
+              }
+
+              if (js.length > 0) {
+                uploadParams["param_" + j] = js
+              }
+            }
+          }
         }
         setSelectedFiles(files)
-        TrackGA('upload_error')
+
+        TrackGA('upload_error', uploadParams)
       }
 
       frame.parentNode.removeChild(frame)
@@ -214,7 +262,12 @@ function DropZone(props) {
                 </div>}
               {data.error && <div className="spe__FileError">
                 {data.errorText ? data.errorText : 'Error'}
-              </div>}
+              </div>
+              }
+              {data.working && <div className="spe__FileUploading">
+                Uploading...
+              </div>
+              }
             </div>
           )
         }
@@ -235,7 +288,7 @@ function FileListItems(files) {
   return b.files
 }
 
-function TrackGA(page) {
+function TrackGA(page, params) {
   if (!fetch) {
     return
   }
@@ -248,10 +301,35 @@ function TrackGA(page) {
       client_id: '331601645.1601326977',
       events: [{
         name: page,
-        params: {},
+        params: {
+          ...params,
+        },
       }]
     })
   });
+}
+
+function isFilesSame(a, b) {
+  if (!a || !b) return false
+
+  if (a.lastModified !== b.lastModified) {
+    console.log('lm', a, b)
+    return false
+  }
+  if (a.size !== b.size) {
+    console.log('size')
+    return false
+  }
+  if (a.type !== b.type) {
+    console.log('t')
+    return false
+  }
+  if (a.name !== b.name) {
+    console.log('name')
+    return false
+  }
+
+  return true
 }
 
 
