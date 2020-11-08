@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
     InventoryHandler()
   } else if (/\/sharedfiles\/edititem\/767\/3/.test(href)) {
     UploadHandler()
-  } else if (/\/profiles\/[^\/]*$/.test(href) || /\/id\/[^\/]*$/.test(href)) {
+  } else if (/\/profiles\/[^\/]*\/?$/.test(href) || /\/id\/[^\/]*\/?$/.test(href)) {
     ProfileHandler()
   } else if (/steamcommunity\.com\/.+\/images\//.test(href)) {
     ArtworkListHandler()
