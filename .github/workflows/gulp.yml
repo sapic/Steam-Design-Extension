@@ -1,4 +1,4 @@
-name: Steam.Design Extension Test/Upload
+name: Steam Profile Assistant Auto Upload
 
 on:
   push:
