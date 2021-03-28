@@ -1,3 +1,5 @@
+const bgImageFromStyleRegex = /background-image: url\("(.+)"\);/
+
 async function shopHandler() {
   addCss()
 
@@ -30,28 +32,49 @@ function addBackgroundLinksToModal() {
     return
   }
 
-  // we use [class^=""] to find submatch in class, since now steam is
-  // using react and class names have random symbols at the end
-  // This is videl element container
-  const videoContainer = modal.querySelector('[class^="redeempointsmodal_VideoPreview_"]')
-  if (!videoContainer) {
-    return
-  }
-
   // Header where we append our links
   const header = modal.querySelector('[class^="redeempointsmodal_Header_"')
   if (!header) {
     return
   }
-
   // Check if we already added links, don't do anything then
   const existingLink = header.parentElement.querySelector('.sapic__shot-bg__link-container')
   if (existingLink) {
     return
   }
 
-  // Get sources from video
-  const sources = previewContainer.querySelectorAll('source')
+  const backgroundPreviewContainer = modal.querySelector('[class^="redeempointsmodal_BackgroundPreviewContainer_"]')
+  if (!backgroundPreviewContainer) {
+    console.log('no bg preview container')
+    return
+  }
+
+  // we use [class^=""] to find submatch in class, since now steam is
+  // using react and class names have random symbols at the end
+  // This is videl element container
+  const videoContainer = modal.querySelector('[class^="redeempointsmodal_VideoPreview_"]')
+  const imageContainer = modal.querySelector('[class^="redeempointsmodal_LargePreview_"]')
+
+  if (!videoContainer && !imageContainer) {
+    return
+  }
+
+  let sources = []
+
+  if (videoContainer) {
+    const videoSources = videoContainer.querySelectorAll('source')
+    for (const source of videoSources) {
+      sources.push(source.getAttribute('src'))
+    }
+  } else {
+    const style = imageContainer.getAttribute('style')
+    const matches = bgImageFromStyleRegex.exec(style)
+    if (!matches) {
+      return
+    }
+
+    sources.push(matches[1])
+  }
 
   // Create links container
   const linksContainer = document.createElement('div')
@@ -59,7 +82,7 @@ function addBackgroundLinksToModal() {
 
   for (const source of sources) {
     // Create link for each of video sources
-    const src = source.getAttribute('src')
+    const src = source
     const split = src.split('.')
     const ext = split[split.length - 1]
 
