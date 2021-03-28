@@ -1,3 +1,5 @@
+import getJsonData from './getJsonData'
+
 const badgeConfig = {
   designer: {
     url: chrome.runtime.getURL("images/designer.png"),
@@ -57,7 +59,7 @@ async function checkDesignerStatus() {
     return
   }
 
-  const data = await getDesignersList()
+  const data = await getJsonData()
   for (let i of data.designers) {
     if (id === i) {
       loadDesignerBanner("designer");
@@ -78,35 +80,6 @@ async function checkDesignerStatus() {
       loadDesignerBanner("donator");
     }
   }
-}
-
-function getDesignersList() {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(['designers'], function (result) {
-      if (result && result.designers && result.designers.set_at) {
-        const timeSpent = Date.now() - result.designers.set_at
-        if (timeSpent < 60 * 60 * 24 * 1000) { // cache for 24 hours
-          return resolve(result.designers)
-        }
-      }
-
-      fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json")
-        .then(r => r.json())
-        .then(function (data) {
-          chrome.storage.sync.set({
-            designers: {
-              ...data,
-              set_at: Date.now(),
-            }
-          }, function () {
-            resolve(data)
-          })
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
-  })
 }
 
 export default checkDesignerStatus
