@@ -19,59 +19,61 @@ async function shopHandler() {
 }
 
 function handleDOMUpdate() {
-  addVideoLinksToModal()
+  addBackgroundLinksToModal()
 }
 
-function addVideoLinksToModal() {
+function addBackgroundLinksToModal() {
   // Steam modal. Can have multiple of them, so we only ask for active
   const modal = document.querySelector('.ModalOverlayContent.active')
 
-  if (modal) {
-    // we use [class^=""] to find submatch in class, since now steam is
-    // using react and class names have random symbols at the end
-    // This is videl element container
-    const previewContainer = modal.querySelector('[class^="redeempointsmodal_VideoPreview_"]')
-    if (!previewContainer) {
-      return
-    }
-
-    // Header where we append our links
-    const header = modal.querySelector('[class^="redeempointsmodal_Header_"')
-    if (!header) {
-      return
-    }
-
-    // Check if we already added links, don't do anything then
-    const existingLink = header.parentElement.querySelector('.sapic__shot-bg__link-container')
-    if (existingLink) {
-      return
-    }
-
-    // Get sources from video
-    const sources = previewContainer.querySelectorAll('source')
-
-    // Create links container
-    const linksContainer = document.createElement('div')
-    linksContainer.className = 'sapic__shot-bg__link-container'
-
-    for (const source of sources) {
-      // Create link for each of video sources
-      const src = source.getAttribute('src')
-      const split = src.split('.')
-      const ext = split[split.length - 1]
-
-      const link = document.createElement('a')
-      link.className = 'sapic__shot-bg__link-item'
-      link.innerText = ext
-      link.href = src
-      link.target = "_blank"
-      link.rel = 'noopener noreferrer'
-
-      linksContainer.appendChild(link)
-    }
-
-    header.parentElement.appendChild(linksContainer)
+  if (!modal) {
+    return
   }
+
+  // we use [class^=""] to find submatch in class, since now steam is
+  // using react and class names have random symbols at the end
+  // This is videl element container
+  const videoContainer = modal.querySelector('[class^="redeempointsmodal_VideoPreview_"]')
+  if (!videoContainer) {
+    return
+  }
+
+  // Header where we append our links
+  const header = modal.querySelector('[class^="redeempointsmodal_Header_"')
+  if (!header) {
+    return
+  }
+
+  // Check if we already added links, don't do anything then
+  const existingLink = header.parentElement.querySelector('.sapic__shot-bg__link-container')
+  if (existingLink) {
+    return
+  }
+
+  // Get sources from video
+  const sources = previewContainer.querySelectorAll('source')
+
+  // Create links container
+  const linksContainer = document.createElement('div')
+  linksContainer.className = 'sapic__shot-bg__link-container'
+
+  for (const source of sources) {
+    // Create link for each of video sources
+    const src = source.getAttribute('src')
+    const split = src.split('.')
+    const ext = split[split.length - 1]
+
+    const link = document.createElement('a')
+    link.className = 'sapic__shot-bg__link-item'
+    link.innerText = ext
+    link.href = src
+    link.target = "_blank"
+    link.rel = 'noopener noreferrer'
+
+    linksContainer.appendChild(link)
+  }
+
+  header.parentElement.appendChild(linksContainer)
 }
 
 function debounce(func, wait, immediate) {
