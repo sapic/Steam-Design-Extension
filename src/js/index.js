@@ -3,6 +3,7 @@ import ProfileHandler from './profile'
 import UploadHandler from './upload'
 import MarketHandler from './market'
 import ArtworkListHandler from './artworkList'
+import PointsShopHandler from './pointsShop'
 
 window.addEventListener('load', function () {
   const href = window.location.href
@@ -17,5 +18,7 @@ window.addEventListener('load', function () {
     ProfileHandler()
   } else if (/steamcommunity\.com\/.+\/images\//.test(href)) {
     ArtworkListHandler()
+  } else if (/store\.steampowered\.com\/points\/shop/.test(href)) {
+    PointsShopHandler()
   }
 })

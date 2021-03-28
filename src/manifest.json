@@ -11,7 +11,8 @@
         {
             "matches": [
                 "https://steamcommunity.com/*",
-                "http://steamcommunity.com/*"
+                "http://steamcommunity.com/*",
+                "https://store.steampowered.com/points/shop/*"
             ],
             "js": [
                 "bundle.js"
