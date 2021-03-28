@@ -124,6 +124,16 @@ function clean() {
     return del('./out/build')
 }
 
+async function buildDesignersJsonFunc() {
+    const animatedBackgrounds = require('./animatedBackgrounds.json')
+    const designersList = require('./designersList.json')
+
+    designersList.animatedBackgrounds = animatedBackgrounds
+
+    fs.writeFileSync('designers.json', JSON.stringify(designersList))
+    return true
+}
+
 exports.default = series(
     dir,
     js,
@@ -147,3 +157,7 @@ exports.dev = function () {
 
     watch('src/**', devPipeline)
 }
+
+exports.buildDesignersJson = series(
+    buildDesignersJsonFunc
+)

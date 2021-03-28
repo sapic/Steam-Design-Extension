@@ -3,7 +3,8 @@
     "version": "0.3.8",
     "scripts": {
         "dev": "gulp dev",
-        "build": "gulp default"
+        "build": "gulp default",
+        "designers": "buildDesignersJson"
     },
     "devDependencies": {
         "chrome-webstore-upload-cli": "^1.2.0",
