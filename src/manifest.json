@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Steam Profile Assistant",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "description": "Does various things to assist with making Steam profile artwork.",
     "icons": {
         "48": "icon48.png",
@@ -11,7 +11,8 @@
         {
             "matches": [
                 "https://steamcommunity.com/*",
-                "http://steamcommunity.com/*"
+                "http://steamcommunity.com/*",
+                "https://store.steampowered.com/points/shop/*"
             ],
             "js": [
                 "bundle.js"
