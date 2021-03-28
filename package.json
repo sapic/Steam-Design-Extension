@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "gulp dev",
         "build": "gulp default",
-        "designers": "buildDesignersJson"
+        "designers": "gulp buildDesignersJson"
     },
     "devDependencies": {
         "chrome-webstore-upload-cli": "^1.2.0",
