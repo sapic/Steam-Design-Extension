@@ -49,13 +49,11 @@ async function checkDesignerStatus() {
 
   const idContainer = document.getElementById("steamID")
   if (!idContainer) {
-    console.log('no user info container')
     return
   }
 
   const id = idContainer.getAttribute("value")
   if (!id) {
-    console.log('no user info')
     return
   }
 
