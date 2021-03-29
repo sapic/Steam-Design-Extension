@@ -45,7 +45,6 @@ function addBackgroundLinksToModal() {
 
   const backgroundPreviewContainer = modal.querySelector('[class^="redeempointsmodal_BackgroundPreviewContainer_"]')
   if (!backgroundPreviewContainer) {
-    console.log('no bg preview container')
     return
   }
 

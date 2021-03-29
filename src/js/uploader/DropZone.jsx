@@ -313,19 +313,15 @@ function isFilesSame(a, b) {
   if (!a || !b) return false
 
   if (a.lastModified !== b.lastModified) {
-    console.log('lm', a, b)
     return false
   }
   if (a.size !== b.size) {
-    console.log('size')
     return false
   }
   if (a.type !== b.type) {
-    console.log('t')
     return false
   }
   if (a.name !== b.name) {
-    console.log('name')
     return false
   }
 
