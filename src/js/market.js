@@ -2,7 +2,7 @@
 import addViewOnSapic from './addViewOnSapic'
 
 function scmSapicButton() {
-  addViewOnSapic('largeiteminfo_item_actions')
+  addViewOnSapic('largeiteminfo')
 }
 
 export default scmSapicButton
