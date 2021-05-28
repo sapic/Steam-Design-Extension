@@ -3,7 +3,7 @@ name: Steam Profile Assistant Auto Upload
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
   build:
