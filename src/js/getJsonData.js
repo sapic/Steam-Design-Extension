@@ -43,7 +43,7 @@ export default function getJsonData() {
 
 function fetchFromGithub() {
   return new Promise((resolve, reject) => {
-    fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/master/designers.json")
+    fetch("https://raw.githubusercontent.com/sapic/Steam-Design-Extension/designers/designers.json")
       .then(r => r.json())
       .then(function (data) {
         const toSet = {
