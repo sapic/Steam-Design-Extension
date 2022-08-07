@@ -20,7 +20,7 @@ jobs:
       - name: Run Gulp
         run: yarn build
       - name: Upload to Chrome Web Store
-        run: yarn webstore upload --source ./out-zip/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
+        run: npx chrome-webstore-upload-cli@2 upload --source ./out-zip/Steam-Design-Extension.zip --extension-id mjmabgdoainclinjecbkdancpamdiaih --client-id ${Client_ID} --client-secret ${Client_Secret} --refresh-token ${Refresh_Token} --auto-publish
         env:
           Client_ID: ${{ secrets.Client_ID }}
           Client_Secret: ${{ secrets.Client_Secret }}
