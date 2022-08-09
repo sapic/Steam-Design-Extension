@@ -1,6 +1,6 @@
 {
     "name": "sapic-extension",
-    "version": "0.3.11",
+    "version": "0.3.12",
     "scripts": {
         "dev": "gulp dev",
         "build": "gulp default",
