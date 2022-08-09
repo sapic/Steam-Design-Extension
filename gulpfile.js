@@ -121,7 +121,10 @@ function devManifest() {
 }
 
 function clean() {
-    return del('./out/build')
+    return del([
+        './out/build',
+        './src/manifest.json'
+    ])
 }
 
 async function buildDesignersJsonFunc() {
