@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Steam Profile Assistant",
-    "version": "0.3.13",
+    "version": "0.3.14",
     "description": "Does various things to assist with making Steam profile artwork.",
     "icons": {
         "48": "icon48.png",
@@ -23,17 +23,11 @@
     "permissions": [
         "https://*.githubusercontent.com/*",
         "http://*.githubusercontent.com/*",
-        "storage",
-        "tabs"
+        "storage"
     ],
     "web_accessible_resources": [
         "images/*.png",
         "massUpload.js",
         "massUpload.css"
-    ],
-    "background": {
-        "scripts": [
-            "hot-reload.js"
-        ]
-    }
+    ]
 }
