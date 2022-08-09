@@ -4,7 +4,7 @@ The official extension for Steam.Design. Adds `View On Steam.Design` buttons to 
 
 To Compile, run `yarn` and `yarn build`
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sapic/steam-design-extension/Steam%20Profile%20Assistant%20Auto%20Upload)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sapic/Steam-Design-Extension/Steam%20Profile%20Assistant%20Test%20Build)
 
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mjmabgdoainclinjecbkdancpamdiaih) ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/mjmabgdoainclinjecbkdancpamdiaih) ![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/mjmabgdoainclinjecbkdancpamdiaih)
 
