@@ -288,27 +288,6 @@ function FileListItems(files) {
   return b.files
 }
 
-function TrackGA(page, params) {
-  if (!fetch) {
-    return
-  }
-  const measurement_id = `G-9YSXRY4VTK`;
-  const api_secret = `D-eXzbjMS0GDLjYqg8OqcQ`;
-
-  fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`, {
-    method: "POST",
-    body: JSON.stringify({
-      client_id: '331601645.1601326977',
-      events: [{
-        name: page,
-        params: {
-          ...params,
-        },
-      }]
-    })
-  });
-}
-
 function isFilesSame(a, b) {
   if (!a || !b) return false
 
