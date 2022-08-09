@@ -18,7 +18,6 @@ function DropZone(props) {
 
   const fileDrop = (e) => {
     e.preventDefault();
-    TrackGA('files_drop')
     const files = e.dataTransfer.files;
 
     if (files.length) {
@@ -85,8 +84,6 @@ function DropZone(props) {
   }
 
   const uploadFiles = async () => {
-    TrackGA('upload_clicked')
-
     const itemForm = document.querySelector(`#SubmitItemForm`)
     const widthInput = document.getElementById('image_width')
     const heightInput = document.getElementById('image_height')
@@ -168,7 +165,6 @@ function DropZone(props) {
         files[i].working = false
         files[i].id = id
         setSelectedFiles(files)
-        TrackGA('upload_success')
       } catch (e) {
         const uploadParams = {}
 
@@ -204,8 +200,6 @@ function DropZone(props) {
           }
         }
         setSelectedFiles(files)
-
-        TrackGA('upload_error', uploadParams)
       }
 
       frame.parentNode.removeChild(frame)
