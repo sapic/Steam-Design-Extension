@@ -122,7 +122,8 @@ function debounce(func, wait, immediate) {
 
 function addCss() {
   const style = document.createElement('style');
-  style.innerHTML = `
+
+  style.appendChild(document.createTextNode(`
     .sapic__shot-bg__link-container {
       margin: 5px -5px 0 -5px;
     }
@@ -130,7 +131,7 @@ function addCss() {
     .sapic__shot-bg__link-item {
       margin: 0 5px;
     }
-  `
+  `))
 
   document.body.appendChild(style)
 }
