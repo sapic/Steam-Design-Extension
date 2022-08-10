@@ -68,7 +68,7 @@ function getBadgeHtml(url, href, text) {
 
 async function checkDesignerStatus() {
   var script = document.createElement('script');
-  style.appendChild(
+  script.appendChild(
     document.createTextNode(
       `document.head.innerHTML += '<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">'`
     )
