@@ -1,10 +1,9 @@
-const { src, dest, series, watch } = require('gulp');
-const gulpEsbuild = require('gulp-esbuild')
-const zip = require('gulp-zip');
-const rename = require("gulp-rename");
-
-const del = require('del');
-const fs = require('fs');
+import { src, dest, series, watch } from 'gulp';
+import gulpEsbuild from 'gulp-esbuild';
+import zip from 'gulp-zip';
+import rename from "gulp-rename";
+import { deleteAsync } from 'del';
+import fs from 'fs';
 
 function dir() {
     return src('*.*', { read: false })
@@ -121,20 +120,10 @@ function devManifest() {
 }
 
 function clean() {
-    return del('./out/build')
+    return deleteAsync('./out/build');
 }
 
-async function buildDesignersJsonFunc() {
-    const animatedBackgrounds = require('./animatedBackgrounds.json')
-    const designersList = require('./designersList.json')
-
-    designersList.animatedBackgrounds = animatedBackgrounds
-
-    fs.writeFileSync('designers.json', JSON.stringify(designersList))
-    return true
-}
-
-exports.default = series(
+export const build = series(
     dir,
     js,
     uploadJs,
@@ -143,7 +132,7 @@ exports.default = series(
     clean
 )
 
-exports.dev = function () {
+export const devtest = function () {
     const devPipeline = series(
         dir,
         jsDev,
@@ -158,6 +147,4 @@ exports.dev = function () {
     watch('src/**', devPipeline)
 }
 
-exports.buildDesignersJson = series(
-    buildDesignersJsonFunc
-)
+export default build
