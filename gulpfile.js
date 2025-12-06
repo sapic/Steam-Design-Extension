@@ -82,6 +82,7 @@ function buildZIP() {
         './src/icon48.png',
         './src/icon128.png',
         './src/manifest.json',
+        './src/js/pageScript.js',
         "./src/assets/**",
     ])
         .pipe(zip('Steam-Design-Extension.zip'))
@@ -96,6 +97,7 @@ function buildFF() {
         './src/manifest.json',
         './src/icon48.png',
         './src/icon128.png',
+        './src/js/pageScript.js',
         "./src/assets/**",
     ])
         .pipe(dest('./out'))
@@ -109,6 +111,7 @@ function dev() {
         './src/massUpload.css',
         './src/icon48.png',
         './src/icon128.png',
+        './src/js/pageScript.js',
         "./src/assets/**",
     ])
         .pipe(dest('./out'))
