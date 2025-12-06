@@ -13,8 +13,8 @@ function longImageButton() {
     }
   });
 
-  injectScript(chrome.extension.getURL('massUpload.js'), 'body');
-  injectStyle(chrome.extension.getURL('massUpload.css'), 'body');
+  injectScript(chrome.runtime.getURL('massUpload.js'), 'body');
+  injectStyle(chrome.runtime.getURL('massUpload.css'), 'body');
 }
 
 function injectScript(file, node) {

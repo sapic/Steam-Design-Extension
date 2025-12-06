@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Steam Profile Assistant",
     "version": "0.3.17",
     "description": "Does various things to assist with making Steam profile artwork.",
@@ -21,13 +21,17 @@
         }
     ],
     "permissions": [
-        "https://*.githubusercontent.com/*",
-        "http://*.githubusercontent.com/*",
         "storage"
     ],
     "web_accessible_resources": [
-        "images/*.png",
-        "massUpload.js",
-        "massUpload.css"
+        {
+            "resources": [
+                "images/*.png",
+                "massUpload.js",
+                "massUpload.css",
+                "pageScript.js"
+            ],
+            "matches": ["<all_urls>"]
+        }
     ]
 }

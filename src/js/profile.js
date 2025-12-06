@@ -67,45 +67,65 @@ function getBadgeHtml(url, href, text) {
 }
 
 async function checkDesignerStatus() {
-  var script = document.createElement('script');
-  script.appendChild(
-    document.createTextNode(
-      `document.head.innerHTML += '<param id=\"steamID\" value=\"'+ g_rgProfileData.steamid + '\">'`
-    )
-  )
-  document.body.appendChild(script)
-
-  const idContainer = document.getElementById("steamID")
-  if (!idContainer) {
-    return
-  }
-
-  const id = idContainer.getAttribute("value")
-  if (!id) {
+  // Get steamid from page context using injected script
+  const steamId = await getSteamIdFromPage()
+  if (!steamId) {
     return
   }
 
   const data = await getJsonData()
   for (let i of data.designers) {
-    if (id === i) {
+    if (steamId === i) {
       loadDesignerBanner("designer");
     }
   }
   for (let i of data.sapicstaff) {
-    if (id === i) {
+    if (steamId === i) {
       loadDesignerBanner("sapic");
     }
   }
   for (let i of data.aevoa) {
-    if (id === i) {
+    if (steamId === i) {
       loadDesignerBanner("aevoa");
     }
   }
   for (let i of data.donator) {
-    if (id === i) {
+    if (steamId === i) {
       loadDesignerBanner("donator");
     }
   }
+}
+
+function getSteamIdFromPage() {
+  return new Promise((resolve) => {
+    // Listen for message from the injected script
+    const messageHandler = (event) => {
+      if (event.source !== window) return
+      if (event.data.type === 'STEAM_PROFILE_DATA') {
+        window.removeEventListener('message', messageHandler)
+        resolve(event.data.steamid)
+      }
+    }
+    window.addEventListener('message', messageHandler)
+
+    // Inject the script that will read page variables
+    const script = document.createElement('script')
+    script.src = chrome.runtime.getURL('pageScript.js')
+    script.onload = function() {
+      this.remove()
+    }
+    script.onerror = function() {
+      window.removeEventListener('message', messageHandler)
+      resolve(null)
+    }
+    document.body.appendChild(script)
+
+    // Timeout after 2 seconds if no response
+    setTimeout(() => {
+      window.removeEventListener('message', messageHandler)
+      resolve(null)
+    }, 2000)
+  })
 }
 
 export default checkDesignerStatus
